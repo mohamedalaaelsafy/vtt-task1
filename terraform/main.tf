@@ -28,3 +28,20 @@ module "gcs-bucket" {
   project_id = var.project_id
   region     = var.region
 }
+
+module "instances" {
+  source = "./modules/instances"
+  machine_name = var.machine_name
+  vm_machine_type = var.vm_machine_type
+  os_image = var.os_image
+  network_name = module.network.vpc_name
+  subnet_name = module.network.subnet_name
+  zone = var.zone
+  region = var.region
+  project_id     = var.project_id
+}
+
+module "databases" {
+  source = "./modules/databases"
+  dataset = var.dataset
+}

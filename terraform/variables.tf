@@ -9,6 +9,11 @@ variable "env" {
 variable "region" {
   type = string
 }
+variable "zone" {
+  type = string
+}
+
+#============================
 
 variable "vpc_name" {
   type = string
@@ -55,7 +60,7 @@ variable "nodes_per_zone" {
 }
 
 
-
+#============================
 variable "buckets" {
   type = list(object({
     name        = string
@@ -74,4 +79,27 @@ variable "buckets" {
       location    = "europe-west6"
     }
   ]
+}
+
+#============================
+
+variable "machine_name" {
+  type = string
+}
+
+variable "os_image" {
+  type = string
+}
+
+variable "vm_machine_type" {
+  type = string
+}
+
+#============================
+
+variable "dataset" {
+  type = list(object({
+    name = string
+    description = string
+  }))
 }

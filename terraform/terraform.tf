@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "kube-terraform-bucket"
-    prefix = "dev"
+    prefix = "env"
   }
 }
 
