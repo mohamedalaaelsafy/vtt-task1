@@ -35,6 +35,11 @@ kubectl create ns dev
 ```bash
 kubectl create ns shared-services
 ```
+Create Secret for IAP
+
+```bash
+kubectl create secret generic my-secret --from-literal=client_id=935709849419-22tc18db4j70hd783p1c9vsm5ejmqlnl.apps.googleusercontent.com --from-literal=client_secret=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
+```
 Install helm charts 
 ```bash
 cd resources
@@ -64,7 +69,7 @@ kubectl -n shared-services port-forward deployment/jenkins 9000:8080
 
 Remove helm charts
 ```bash
-helm uninstall wep-app --namespace dev
+helm uninstall web-app --namespace dev
 ```
 ```bash
 helm uninstall ingress --namespace dev

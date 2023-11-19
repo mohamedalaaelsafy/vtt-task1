@@ -34,11 +34,11 @@ shared-chart:
       port: 80
       targetPort: app-port
 
-  secret:
-  - name: my-secret
-    data:
-      client_id: OTM1NzA5ODQ5NDE5LTIydGMxOGRiNGo3MGhkNzgzcDFjOXZzbTVlam1xbG5sLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tCg==
-      client_secret: R09DU1BYLWpVYktTRzZLSUVhLXBYUkdJYTNGZkVMZFlTM0YK
+  # secret:
+  # - name: my-secret
+  #   data:
+  #     client_id: OTM1NzA5ODQ5NDE5LTIydGMxOGRiNGo3MGhkNzgzcDFjOXZzbTVlam1xbG5sLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tCg==
+  #     client_secret: R09DU1BYLWpVYktTRzZLSUVhLXBYUkdJYTNGZkVMZFlTM0YK
 
   backendConfig:
     name: backend
