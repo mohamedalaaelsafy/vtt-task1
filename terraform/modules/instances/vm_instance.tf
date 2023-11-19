@@ -15,11 +15,18 @@ resource "google_compute_instance" "default" {
   network_interface {
     network = var.network_name
     subnetwork = var.subnet_name
-    access_config {}
+
+    # access_config {
+      
+    # }
   }
+  allow_stopping_for_update = true
 
   service_account {
     email  = module.gs-buckets-sa.email
     scopes = ["cloud-platform"]
   }
+
+  depends_on = [ module.bq-datasets-sa , module.gs-buckets-sa ]
+
 }

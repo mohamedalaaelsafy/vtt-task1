@@ -1,13 +1,14 @@
 shared-chart:
-  name: shared-chart
+  name: wep-app
   namespace: dev
+
 
   deployment:
     annotations: {}
-    image: ghcr.io/mohamedalaaelsafy/jenkins-dockerfile:latest
+    image: us-central1-docker.pkg.dev/vodafone-technical-task/dev/web-app
     tag: latest
     restartPolicy: Always
-    serviceAccountName: tsf-prod
+    serviceAccountName: {}
     resources:
       requests:
         cpu: 30m
@@ -16,59 +17,35 @@ shared-chart:
         cpu: 100m
         memory: 300Mi
     ports:
-    - name: http-port
-      containerPort: 8080
-    - name: jnlp-port
-      containerPort: 50000
-    env:
-    - name: NODE_ENV
-      value: production
-    - name: MICROSERVICE_NAME
-      value: admin
-    volumeMounts:
-    - name: jenkins-data
-      mountPath: /var/jenkins_home
-    - name: docker-socket
-      mountPath: /var/run/docker.sock
-    volumes:
-    - name: jenkins-data
-      persistentVolumeClaim:
-        claimName: jenkins-pvc
-    - name: docker-socket
-      hostPath:
-        path: /var/run/docker.sock
+    - name: app-port
+      containerPort: 80
 
-service:
-  annotations: {}
-  name: jenkins-svc
-  labels: {}
-  selector:
-    app: jenkins  
-  type: ClusterIP
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: http-port
+  service:
+    annotations: 
+      cloud.google.com/neg: '{"ingress": true}'
+      beta.cloud.google.com/backend-config: '{"default": "backend"}'
+    name: app-svc
+    labels: {}
+    selector:
+      app: wep-app  
+    type: ClusterIP
+    ports:
+    - protocol: TCP
+      port: 80
+      targetPort: app-port
+
+  secret:
+  - name: my-secret
+    data:
+      client_id: OTM1NzA5ODQ5NDE5LTIydGMxOGRiNGo3MGhkNzgzcDFjOXZzbTVlam1xbG5sLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tCg==
+      client_secret: R09DU1BYLWpVYktTRzZLSUVhLXBYUkdJYTNGZkVMZFlTM0YK
+
+  backendConfig:
+    name: backend
+    spec:
+      iap:
+        enabled: true
+        oauthclientCredentials:
+          secretName: my-secret
 
 
-
-pvc:
-- name: jenkins-pvc
-  storageClassName: standard
-  accessModes:
-  - ReadWriteOnce
-  resources: 
-    requests: 
-      storage: 5Gi
-
-
-ingress:
-  name: jenkins
-  annotations: {}
-  ingressClassName: nginx
-  rules:
-    - host: jenkins.com
-      paths:
-        - path: /
-          service: jenkins-svc
-          port: 8080

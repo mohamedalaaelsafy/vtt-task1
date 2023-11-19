@@ -2,3 +2,6 @@
 *.hcl
 *.tgz
 app/
+*.lock
+install.txt
+*.tfstate

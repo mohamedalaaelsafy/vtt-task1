@@ -14,9 +14,12 @@ module "gke" {
   zones                           = var.cluster_zones
   network                         = var.vpc_name
   regional                        = false
+  master_ipv4_cidr_block          = var.master_node_cidr
   subnetwork                      = var.subnet_name
-  ip_range_pods                   = null
-  ip_range_services               = null
+  ip_range_pods                   = var.subnet_cidr_sec1
+  ip_range_services               = var.subnet_cidr_sec2
+  kubernetes_version              = "1.27.3-gke.100"
+  release_channel                 = "UNSPECIFIED"
   create_service_account          = false
   http_load_balancing             = true
   remove_default_node_pool        = true
@@ -24,17 +27,18 @@ module "gke" {
   horizontal_pod_autoscaling      = false
   enable_vertical_pod_autoscaling = false
   enable_private_nodes            = true
-  enable_private_endpoint         = true
-  # master_authorized_networks      = var.master_authorized_networks
+  enable_private_endpoint         = false
+  master_authorized_networks      = var.master_authorized_networks
   filestore_csi_driver = false
-  service_account      = module.acr-sa.email
+  deletion_protection  = false
+  # service_account      = module.acr-sa.email
   node_pools = [
     {
       name               = "node-pool"
       machine_type       = var.machine_type
-      node_locations     = "europe-west6-a"
+      node_locations     = var.node_locations
       autoscaling        = false
-      node_count         = var.node_count
+      node_count         = var.nodes_per_zone
       local_ssd_count    = 0
       spot               = false
       disk_size_gb       = 20
@@ -45,9 +49,9 @@ module "gke" {
       auto_repair        = false
       auto_upgrade       = false
       preemptible        = false
-      initial_node_count = var.nodes_per_zone
+      initial_node_count = 0
     },
   ]
-  node_pools_tags = { all = [""] }
-  depends_on      = [google_project_service.gke]
+  # node_pools_tags = { all = [""] }
+  depends_on = [google_project_service.gke , module.acr-sa ]
 }

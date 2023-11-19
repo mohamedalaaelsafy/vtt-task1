@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "kube-terraform-bucket"
-    prefix = "env"
+    prefix = "vtt-task1"
   }
 }
 
@@ -9,3 +9,4 @@ provider "google" {
   project = "vodafone-technical-task"
   region  = "us-central1"
 }
+

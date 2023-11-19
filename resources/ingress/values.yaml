@@ -1,0 +1,31 @@
+shared-chart:
+  name: wep-app
+  namespace: dev
+  
+  frontendConfig:
+    name: frontend
+    spec:
+      redirectToHttps:
+        enabled: true
+
+  managedCertificate:
+    name: certificate
+    spec:
+      domains:
+      - "angular.ma-devops.com"
+
+  ingress:
+    name: ingress-alb
+    annotations:
+      networking.gke.io/managed-certificates: "certificate"
+      kubernetes.io/ingress.global-static-ip-name: "vtt-ip"
+      networking.gke.io/v1beta1.FrontendConfig: "frontend"
+    defaultBackend:
+      service: app-svc
+      port: 80
+    rules:
+      - host: "angular.ma-devops.com"
+        paths:
+          - path: /
+            service: app-svc
+            port: 80

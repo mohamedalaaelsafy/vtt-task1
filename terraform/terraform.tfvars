@@ -1,3 +1,4 @@
+### General ###
 project_id = "vodafone-technical-task"
 
 env = "dev"
@@ -10,65 +11,81 @@ zone = "us-central1-a"
 ### NETWORK ###
 vpc_name = "vtt"
 
-vpc_cidr = "172.16.1.0/24"
-
 subnet_name = "vtt-subnet"
 
-subnet_cidr = "172.22.0.0/16"
+subnet_cidr = "10.0.1.0/24"
 
+subnet_cidr_sec1 = "10.1.0.0/16"
+
+subnet_cidr_sec2 = "10.2.0.0/16"
+
+alb_ip_enabled = true
+
+alb_ip_name = "vtt-ip"
 
 ### GKE CLUSTER ###
 cluster_name = "vtt-cluster"
 
 cluster_region = "us-central1"
 
-cluster_zones = ["us-central1-c", "us-central1-f"]
+# cluster_zones = ["us-central1-c", "us-central1-f"]
+cluster_zones = ["us-central1-c"]
 
-machine_type = "e2-standard-2"
+node_locations = "us-central1-c"
 
-node_count = 4
+machine_type = "e2-medium"
 
-nodes_per_zone = 2
+nodes_per_zone = 1
+
+master_node_cidr = "172.16.0.16/28"
+
+master_authorized_networks = [
+  {
+    # cidr_block   = "10.0.1.2/32"
+    cidr_block   = "0.0.0.0/0"
+    display_name = "Allow all"
+  }
+]
 
 
 ### GS Bucket ###
-buckets = [ 
-    {
-    name = "Bucket-1"
-    description = "Bucket-1"
-    location = "us-central1"
-    },
-    {
-    name = "Bucket-2"
-    description = "Bucket-2"
-    location = "us-central1"
-    },
-    {
-    name = "Bucket-3"
-    description = "Bucket-3"
-    location = "us-central1"
-    }
+buckets = [
+  {
+    name        = "datastore-bucket-1"
+    description = "datastore-bucket-1"
+    location    = "us-central1"
+  },
+  {
+    name        = "datastore-bucket-2"
+    description = "datastore-bucket-2"
+    location    = "us-central1"
+  },
+  {
+    name        = "datastore-bucket-3"
+    description = "datastore-bucket-3"
+    location    = "us-central1"
+  }
 ]
 
 ### VM INSTANCE ###
 machine_name = "vtt"
 
-os_image = "ubuntu-minimal-2004-focal-arm64-v20231031"
+os_image = "ubuntu-2004-focal-v20231101"
 
-vm_machine_type = "e2-medium"
+vm_machine_type = "e2-micro"
 
-### VM Databases ###
-dataset = [ 
-    {
-    name = "dataset-1"
-    description = "dataset-1"
-    },
-    {
-    name = "dataset-2"
-    description = "dataset-2"
-    },
-    {
-    name = "dataset-3"
-    description = "dataset-3"
-    } 
+### Databases ###
+dataset = [
+  {
+    name        = "dataset1"
+    description = "dataset1"
+  },
+  {
+    name        = "dataset2"
+    description = "dataset2"
+  },
+  {
+    name        = "dataset3"
+    description = "dataset3"
+  }
 ]

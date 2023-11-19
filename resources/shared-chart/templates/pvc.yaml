@@ -6,12 +6,12 @@ metadata:
   namespace: {{ $.Values.namespace | lower }}
   name: {{ $value.name }}
 spec:
-  storageClassName: {{ $value.storageClass | default "ssd" }}
+  storageClassName: {{ $value.storageClass  }}
   accessModes:
     - {{ $value.accessMode | default "ReadWriteOnce" }}
   resources:
     requests:
-      storage: {{ $value.storage | default "50Gi" }}
+      storage: {{ $value.storage }}
 ---
 {{- end }}
 {{- end }}
