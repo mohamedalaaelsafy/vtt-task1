@@ -28,14 +28,13 @@ cluster_name = "vtt-cluster"
 
 cluster_region = "us-central1"
 
-# cluster_zones = ["us-central1-c", "us-central1-f"]
-cluster_zones = ["us-central1-c"]
+cluster_zones = ["us-central1-c", "us-central1-f"] # multi Zonal Cluster
 
-node_locations = "us-central1-c"
+node_locations = "us-central1-c , us-central1-f" # Locations of Nodes
 
-machine_type = "e2-medium"
+machine_type = "e2-standard-2"
 
-nodes_per_zone = 1
+nodes_per_zone = 2 # 2/zone --> 4 total nodes
 
 master_node_cidr = "172.16.0.16/28"
 
