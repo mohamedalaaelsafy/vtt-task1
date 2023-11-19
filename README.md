@@ -38,7 +38,7 @@ kubectl create ns shared-services
 Create Secret for IAP
 
 ```bash
-kubectl create secret generic my-secret --from-literal=client_id=935709849419-22tc18db4j70hd783p1c9vsm5ejmqlnl.apps.googleusercontent.com --from-literal=client_secret=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
+kubectl -n dev create secret generic my-secret --from-literal=client_id=935709849419-22tc18db4j70hd783p1c9vsm5ejmqlnl.apps.googleusercontent.com --from-literal=client_secret=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
 ```
 Install helm charts 
 ```bash
